@@ -1,40 +1,35 @@
-
-
 "use client";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const Home = () => {
-
   const [inputValue, setInputValue] = useState("");
-
-
-
+  const [activeSales, setActiveSales] = useState([]);
   const { data: session } = useSession();
+  const router = useRouter();
 
   const handleInputChange = (e) => {
-    setInputValue(e.target.value.toLowerCase());  // Convert to lowercase for case-insensitive comparison
+    setInputValue(e.target.value.toLowerCase());
   };
 
-  // Define meal names for matching
-  const mealNames = {
-    chicken: "Grilled Chicken",
-    paneer: "Paneer Tikka",
-    salad: "Greek Salad",
+  const handleOrderNow = (foodName) => {
+    router.push(`/order/${encodeURIComponent(foodName)}`);
   };
 
-  // Function to filter meals based on input
-  const filteredMeals = () => {
-    if (inputValue === "") {
-      return Object.keys(mealNames); // Show all meals if input is empty
-    }
+  useEffect(() => {
+    const fetchActiveSales = async () => {
+      try {
+        const response = await fetch('/api/acsales');
+        const data = await response.json();
+        setActiveSales(data);
+      } catch (error) {
+        console.error('Failed to fetch active sales:', error);
+      }
+    };
 
-    // Filter meals based on the input value (case-insensitive)
-    return Object.keys(mealNames).filter((meal) =>
-      meal.toLowerCase().includes(inputValue) || mealNames[meal].toLowerCase().includes(inputValue)
-    );
-  };
+    fetchActiveSales();
+  }, []);
 
   return (
     <div className="flex flex-col max-w-[80vw] mx-auto">
@@ -60,8 +55,35 @@ const Home = () => {
           />
         </form>
       </div>
-      <h1 className="mx-auto my-10 text-3xl font-bold">Meals Near You</h1>
-
+      <h1 className="mx-auto my-10 text-black text-3xl font-bold">Meals Near You</h1>
+      <div className="flex mx-auto overflow-x-auto space-x-4 py-4">
+        {activeSales.length > 0 ? (
+          activeSales.map((sale, index) => (
+            <div
+              key={index}
+              className="bg-black text-white p-6 rounded-md w-60 shadow-md flex-shrink-0"
+            >
+              <h2 className="text-xl font-bold">{sale.foodName}</h2>
+              <p>{sale.description}</p>
+              <p className="text-lg font-semibold">${sale.price.toFixed(2)}</p>
+              <p>Available: {sale.maxQuantity}</p>
+              <img
+                src={sale.foodImg}
+                alt={sale.foodName}
+                className="w-full h-auto rounded-md mt-2"
+              />
+              <button
+                onClick={() => handleOrderNow(sale.foodName)}
+                className="bg-blue-500 text-white py-2 px-4 rounded-md mt-4 hover:bg-blue-600"
+              >
+                Order Now
+              </button>
+            </div>
+          ))
+        ) : (
+          <p>No active sales available.</p>
+        )}
+      </div>
     </div>
   );
 };

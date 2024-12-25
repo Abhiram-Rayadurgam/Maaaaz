@@ -64,14 +64,14 @@ const Profile = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-6">
+    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center">
 
       {loading ? (
         <p className="text-lg text-gray-600">Loading...</p>
       ) : error ? (
         <p className="text-lg text-red-600">{error}</p>
       ) : user ? (
-        <div className="bg-emerald-950 shadow-lg rounded-lg p-6 w-full flex  flex-row justify-between max-w-3xl">
+        <div className="bg-emerald-950 shadow-lg rounded-lg p-16 w-full flex  flex-row justify-between max-w-3xl">
           <Image src="/food2.avif" alt="food image" width={350} height={300} layout="intrinsic" priority={true} />
           <form onSubmit={handleSubmit} className="mx-auto">
 

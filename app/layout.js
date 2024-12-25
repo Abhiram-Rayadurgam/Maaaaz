@@ -1,4 +1,3 @@
-
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import "./globals.css";
@@ -15,14 +14,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} flex bg-white flex-col min-h-screen`}>
         <NextAuthProvider>
-          <div className="bg-white w-[100vw] mx-auto">
-
-            <Navbar />
-            {children}
-            <Footer />
-          </div>
+          <Navbar />
+          <main className="flex-grow bg-white w-[100vw] mx-auto">{children}</main>
+          <Footer />
         </NextAuthProvider>
       </body>
     </html>

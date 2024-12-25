@@ -23,7 +23,7 @@ export default function Navbar() {
   return (
     <div className="bg-black">
       <div className="p-5 shadow-none max-w-[80%] mx-auto flex bg-black justify-between items-center">
-        <Link className="font-extrabold text-6xl text-white" href={"/"}>
+        <Link className="font-extrabold text-6xl text-white" href={"/Home"}>
           Maaaaz!
         </Link>
         {status === "authenticated" ? (
