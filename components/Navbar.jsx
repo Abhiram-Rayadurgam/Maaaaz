@@ -47,7 +47,7 @@ export default function Navbar() {
               Profile
             </button>
             <button
-              onClick={() => signOut()}
+              onClick={() => router.push("/Sales")}
               className="text-white px-3 py-2"
             >
               Sales
