@@ -17,6 +17,34 @@ const Home = () => {
     router.push(`/order/${encodeURIComponent(foodName)}`);
   };
 
+  const filterSales = () => {
+    if (!inputValue) {
+      return activeSales;
+    }
+    const regex = new RegExp(inputValue, 'i');
+    return activeSales.filter(sale => regex.test(sale.foodName) || regex.test(sale.description));
+  };
+
+  // Function to return a default image based on food name match
+  const getFoodImage = (foodName) => {
+    const foodImages = {
+      dosa: "/dosa.jpg",
+      idli: "/idli.jpg",
+      vada: "/vada.jpg",
+      noodles: "/noodles.jpg",
+      pizza: "/pizza.jpg",
+      burger: "/burger.jpg",
+      biryani: "/biryani.jpg",
+      kabab: "/kabab.jpg",
+    };
+
+    const foodMatch = Object.keys(foodImages).find(food =>
+      new RegExp(food, 'i').test(foodName)
+    );
+
+    return foodMatch ? foodImages[foodMatch] : ''; // Return image path or empty if no match
+  };
+
   useEffect(() => {
     const fetchActiveSales = async () => {
       try {
@@ -55,31 +83,38 @@ const Home = () => {
           />
         </form>
       </div>
-      <h1 className="mx-auto my-10 text-black text-3xl font-bold">Meals Near You</h1>
-      <div className="flex mx-auto overflow-x-auto space-x-4 py-4">
-        {activeSales.length > 0 ? (
-          activeSales.map((sale, index) => (
-            <div
-              key={index}
-              className="bg-black text-white p-6 rounded-md w-60 shadow-md flex-shrink-0"
-            >
-              <h2 className="text-xl font-bold">{sale.foodName}</h2>
-              <p>{sale.description}</p>
-              <p className="text-lg font-semibold">${sale.price.toFixed(2)}</p>
-              <p>Available: {sale.maxQuantity}</p>
-              <img
-                src={sale.foodImg}
-                alt={sale.foodName}
-                className="w-full h-auto rounded-md mt-2"
-              />
-              <button
-                onClick={() => handleOrderNow(sale.foodName)}
-                className="bg-blue-500 text-white py-2 px-4 rounded-md mt-4 hover:bg-blue-600"
+      <h1 className="mx-auto my-10 text-black text-3xl font-bold">Meals Available</h1>
+      <div className="flex flex-wrap mx-auto space-x-4 py-4 justify-center">
+        {filterSales().length > 0 ? (
+          filterSales().map((sale, index) => {
+            const foodImage = getFoodImage(sale.foodName);
+            return (
+              <div
+                key={index}
+                className="bg-white text-black p-6 rounded-md w-[30vw] mb-4 shadow-md flex-shrink-0 border-2 border-emerald-950"
               >
-                Order Now
-              </button>
-            </div>
-          ))
+                <h2 className="text-xl font-bold">{sale.foodName}</h2>
+                <p>{sale.description}</p>
+                <p className="text-lg font-semibold">₹{sale.price.toFixed(2)}</p>
+                <p>Available: {sale.maxQuantity}</p>
+
+                {foodImage && (
+                  <img
+                    src={foodImage}
+                    alt={sale.foodName}
+                    className="w-full h-auto max-w-[400px] max-h-[200px] rounded-md mt-2 object-cover"
+                  />
+                )}
+
+                <button
+                  onClick={() => handleOrderNow(sale.foodName)}
+                  className="bg-black text-white py-2 px-4 rounded-md mt-4 hover:bg-gray-900"
+                >
+                  Order Now
+                </button>
+              </div>
+            );
+          })
         ) : (
           <p>No active sales available.</p>
         )}

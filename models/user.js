@@ -1,12 +1,23 @@
-
-
 import mongoose, { Schema } from "mongoose";
+
+const orderSchema = new Schema(
+  {
+    foodName: {
+      type: String,
+      required: true,
+    },
+    price: {
+      type: Number,
+      required: true,
+    },
+  },
+  { timestamps: true }
+);
 
 const saleSchema = new Schema(
   {
     foodItem: {
-      type: String,
-      required: true,
+      type: String
     },
     foodName: {
       type: String,
@@ -55,6 +66,7 @@ const userSchema = new Schema(
       type: String,
     },
     sales: [saleSchema],
+    orders: [orderSchema], // Add orders field here
   },
   { timestamps: true }
 );

@@ -3,8 +3,7 @@ import User from "@/models/user";
 import { NextResponse } from "next/server";
 
 export async function GET(request, { params }) {
-  // Await the params before using them
-  const { foodName } = await params; // Await params
+  const { foodName } = await params;
 
   await connectMongoDB();
 
@@ -21,7 +20,22 @@ export async function GET(request, { params }) {
       return NextResponse.json({ message: "Food item not found" }, { status: 404 });
     }
 
-    return NextResponse.json(foodItem, { status: 200 });
+    const sellerInfo = {
+      name: userWithSale.name,
+      phone: userWithSale.phone,
+      address: userWithSale.address,
+    };
+
+    const foodDetails = {
+      foodName: foodItem.foodName,
+      description: foodItem.description,
+      price: foodItem.price,
+      foodImg: foodItem.foodImg,
+      maxQuantity: foodItem.maxQuantity,
+      user: sellerInfo,  // Ensure that the user details are included
+    };
+
+    return NextResponse.json(foodDetails, { status: 200 });
   } catch (error) {
     console.error("Error fetching food item:", error);
     return NextResponse.json({ message: "Internal server error" }, { status: 500 });

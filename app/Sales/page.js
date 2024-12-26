@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -45,16 +44,16 @@ export default function SalesPage() {
               {activeSales.map((sale) => (
                 <li
                   key={sale._id}
-                  className="p-6 bg-white rounded-lg shadow hover:shadow-lg transition"
+                  className="p-6 w-fit border border-3 border-emerald-950 rounded-lg shadow hover:shadow-lg transition"
                 >
-                  <h3 className="text-xl font-bold text-blue-600 mb-2">
+                  <h3 className="text-xl font-extrabold text-black mb-2">
                     {sale.foodName}
                   </h3>
-                  <p className="text-gray-700 mb-2">{sale.description}</p>
-                  <p className="text-gray-600">
-                    <strong>Price:</strong> ${sale.price}
+                  <p className="text-black mb-2">{sale.description}</p>
+                  <p className="text-black">
+                    <strong>Price:</strong> ₹{sale.price.toFixed(2)}
                   </p>
-                  <p className="text-gray-600">
+                  <p className="text-black">
                     <strong>Valid Till:</strong>{" "}
                     {new Date(sale.validTill).toLocaleDateString()}
                   </p>
@@ -62,7 +61,7 @@ export default function SalesPage() {
               ))}
             </ul>
           ) : (
-            <p className="text-gray-600">No active sales.</p>
+            <p className="text-gray-600">No active sales available.</p>
           )}
         </section>
 
@@ -80,7 +79,7 @@ export default function SalesPage() {
                   </h3>
                   <p className="text-gray-700 mb-2">{sale.description}</p>
                   <p className="text-gray-600">
-                    <strong>Price:</strong> ${sale.price}
+                    <strong>Price:</strong> ₹{sale.price.toFixed(2)}
                   </p>
                   <p className="text-gray-600">
                     <strong>Valid Till:</strong>{" "}
@@ -90,13 +89,13 @@ export default function SalesPage() {
               ))}
             </ul>
           ) : (
-            <p className="text-gray-600">No old sales.</p>
+            <p className="text-gray-600">No old sales available.</p>
           )}
         </section>
 
         <div className="flex justify-center">
           <Link href="/Newsale">
-            <button className="px-6 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            <button className="px-6 py-2 text-white bg-black rounded-lg hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-400">
               Add New Sale
             </button>
           </Link>

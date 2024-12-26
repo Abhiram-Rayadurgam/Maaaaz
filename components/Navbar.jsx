@@ -11,7 +11,7 @@ export default function Navbar() {
   const router = useRouter();
   const { status } = useSession();
 
-  // Redirect authenticated users to /Home automatically, and unauthenticated users to /Greet
+
   useEffect(() => {
     if (status === "authenticated") {
       router.push("/Home");
@@ -23,7 +23,18 @@ export default function Navbar() {
   return (
     <div className="bg-black">
       <div className="p-5 shadow-none max-w-[80%] mx-auto flex bg-black justify-between items-center">
-        <Link className="font-extrabold text-6xl text-white" href={"/Home"}>
+
+        <Link
+          className="font-extrabold text-6xl text-white"
+          style={{
+            fontFamily: 'cursive, fantasy',
+            textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
+            letterSpacing: '2px',
+            transform: 'scale(1.1)',
+          }}
+          href={"/Home"}
+        >
+
           Maaaaz!
         </Link>
         {status === "authenticated" ? (
@@ -35,8 +46,8 @@ export default function Navbar() {
               Home
             </button>
             <button
-              onClick={() => signOut()}
-              className="text-white px-3 py-2 "
+              onClick={() => router.push("/Orders")}
+              className="text-white px-3 py-2"
             >
               Orders
             </button>
@@ -88,6 +99,6 @@ export default function Navbar() {
           </div>
         )}
       </div>
-    </div>
+    </div >
   );
 }

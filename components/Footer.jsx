@@ -11,7 +11,21 @@ const Footer = () => {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-6 sm:space-y-0">
 
           <div className="flex flex-col sm:items-start items-center">
-            <h1 className="text-3xl font-semibold">Maaaaz!</h1>
+
+
+            <h1
+              className="font-extrabold text-4xl text-white"
+              style={{
+                fontFamily: 'cursive, fantasy',
+                textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
+                letterSpacing: '2px',
+                transform: 'scale(1.1)',
+              }}
+            >
+              Maaaaz!
+            </h1>
+
+
 
           </div>
           <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6">
