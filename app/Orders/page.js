@@ -1,12 +1,28 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-
 const Orders = () => {
   const { data: session } = useSession();
   const [orders, setOrders] = useState([]);
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
+  const [userAd, setUserAd] = useState({ userAd: '' });
+
+  const mapCtrl = async () => {
+
+    const response = await fetch(`/api/getAd/${encodeURIComponent(foodName)}`);
+    if (!response.ok) {
+      throw new Error("Failed to fetch user data");
+    }
+    const data = await response.json();
+    setUserAd(data.address)
+    const mapsURL = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(
+      userAd.userAd
+    )}&destination=${encodeURIComponent(address)}`;
+    window.open(mapsURL, "_blank");
+  }
+
+
 
   useEffect(() => {
     if (!session) return;
@@ -55,6 +71,7 @@ const Orders = () => {
               <p className="text-sm text-black mt-1">
                 Ordered at: {new Date(order.createdAt).toLocaleString()}
               </p>
+              <button onClick={mapCtrl} className="">Directions</button>
             </li>
           ))}
         </ul>

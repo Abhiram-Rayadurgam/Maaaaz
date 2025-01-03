@@ -30,7 +30,8 @@ export const POST = async (req) => {
     await connectMongoDB();
 
     const user = await User.findOne({ "sales.foodName": foodName });
-
+    const foodItemIndex = user.sales.findIndex((item) => item.foodName === foodName);
+    const foodItem = user.sales[foodItemIndex];
     if (!user) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
@@ -44,6 +45,9 @@ export const POST = async (req) => {
     curruser.orders.push({ foodName, price: foodPrice });
 
     await curruser.save();
+
+    user.sales[foodItemIndex].maxQuantity -= 1;
+    await user.save();
 
     const subject = `New Order for ${foodName}`;
     const text = `You have received a new order for ${foodName} costing ₹${foodPrice.toFixed(2)} from ${session?.user?.email}.`;

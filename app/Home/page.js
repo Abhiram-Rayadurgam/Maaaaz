@@ -25,7 +25,7 @@ const Home = () => {
     return activeSales.filter(sale => regex.test(sale.foodName) || regex.test(sale.description));
   };
 
-  // Function to return a default image based on food name match
+
   const getFoodImage = (foodName) => {
     const foodImages = {
       dosa: "/dosa.jpg",
@@ -42,7 +42,7 @@ const Home = () => {
       new RegExp(food, 'i').test(foodName)
     );
 
-    return foodMatch ? foodImages[foodMatch] : ''; // Return image path or empty if no match
+    return foodMatch ? foodImages[foodMatch] : '';
   };
 
   useEffect(() => {
