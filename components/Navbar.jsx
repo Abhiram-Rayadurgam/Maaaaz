@@ -1,5 +1,3 @@
-
-
 "use client";
 
 import Link from "next/link";
@@ -11,7 +9,6 @@ export default function Navbar() {
   const router = useRouter();
   const { status } = useSession();
 
-
   useEffect(() => {
     if (status === "authenticated") {
       router.push("/Home");
@@ -21,8 +18,8 @@ export default function Navbar() {
   }, [status, router]);
 
   return (
-    <div className="bg-black">
-      <div className="p-5 shadow-none max-w-[80%] mx-auto flex bg-black justify-between items-center">
+    <div className="bg-black backdrop-blur-lg bg-opacity-60 fixed top-0 left-0 w-full z-10">
+      <div className="p-5 shadow-none max-w-[80%] mx-auto flex justify-between items-center">
 
         <Link
           className="font-extrabold text-6xl text-white"
@@ -34,7 +31,6 @@ export default function Navbar() {
           }}
           href={"/Home"}
         >
-
           Maaaaz!
         </Link>
         {status === "authenticated" ? (
@@ -85,12 +81,6 @@ export default function Navbar() {
               About
             </button>
             <button
-              onClick={() => router.push("/Services")}
-              className="text-white px-3 py-2 "
-            >
-              Services
-            </button>
-            <button
               onClick={() => signIn("google")}
               className="text-white px-3 py-2 "
             >
@@ -99,6 +89,6 @@ export default function Navbar() {
           </div>
         )}
       </div>
-    </div >
+    </div>
   );
 }

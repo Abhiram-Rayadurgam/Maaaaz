@@ -60,17 +60,17 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="flex flex-col max-w-[80vw] mx-auto">
+    <div className="flex flex-col max-w-[100vw] mx-auto">
       <div
         style={{
-          backgroundImage: 'url("/food2.jpg")',
+          backgroundImage: 'url("/mfood.jpg")',
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
+          backgroundPosition: '50% 75%',
         }}
-        className="w-[80vw] mt-10 p-16 inset-0 mx-auto h-[60vh] border-white"
+        className="w-[100vw] p-16 inset-0 mx-auto h-[75vh] border-white"
       >
-        <p className="text-white font-extrabold text-4xl">
+        <p className="text-white block mx-auto w-fit mt-[20vh] font-extrabold text-5xl">
           Welcome, {session?.user?.name}!
         </p>
         <form>
@@ -78,12 +78,12 @@ const Home = () => {
             value={inputValue}
             onChange={handleInputChange}
             placeholder="What would you like to eat today?"
-            className="block placeholder-shown:min-w-[30ch] p-3 text-2xl rounded-md mt-32 m-auto"
+            className="block placeholder-shown:min-w-[30ch] placeholder-gray-600 focus:outline-none text-gray-800 p-3 text-2xl rounded-md mt-32 m-auto"
             type="text"
           />
         </form>
       </div>
-      <h1 className="mx-auto my-10 text-black text-3xl font-bold">Meals Available</h1>
+      <h1 className="mx-auto my-10 text-black text-3xl font-bold">Meals available near you</h1>
       <div className="flex flex-wrap mx-auto space-x-4 py-4 justify-center">
         {filterSales().length > 0 ? (
           filterSales().map((sale, index) => {
@@ -91,20 +91,23 @@ const Home = () => {
             return (
               <div
                 key={index}
-                className="bg-white text-black p-6 rounded-md w-[30vw] mb-4 shadow-md flex-shrink-0 border-2 border-emerald-950"
+                className="bg-white text-black group p-6 rounded-md w-fit mb-4 flex-shrink-0 border border-gray-300 shadow-lg"
               >
+                <div className="overflow-hidden rounded-md">
+                  {foodImage && (
+                    <img
+                      src={foodImage}
+                      alt={sale.foodName}
+                      className="w-full h-auto mb-4 transition-transform duration-300  group-hover:scale-110 min-w-[400px] max-h-[200px] rounded-md mt-2 object-cover"
+                    />
+                  )}
+                </div>
+
                 <h2 className="text-xl font-bold">{sale.foodName}</h2>
                 <p>{sale.description}</p>
                 <p className="text-lg font-semibold">₹{sale.price.toFixed(2)}</p>
                 <p>Available: {sale.maxQuantity}</p>
 
-                {foodImage && (
-                  <img
-                    src={foodImage}
-                    alt={sale.foodName}
-                    className="w-full h-auto max-w-[400px] max-h-[200px] rounded-md mt-2 object-cover"
-                  />
-                )}
 
                 <button
                   onClick={() => handleOrderNow(sale.foodName)}
@@ -116,7 +119,7 @@ const Home = () => {
             );
           })
         ) : (
-          <p>No active sales available.</p>
+          <p>No active sales near you :(</p>
         )}
       </div>
     </div>
